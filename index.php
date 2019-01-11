@@ -1,7 +1,15 @@
+<!DOCTYPE HTML>
+<html><head>
+    <title>Młynek</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    </style>
+</head>
+<body>
+Hello
 <?php
-/**
- * Created by PhpStorm.
- * User: xgumi
- * Date: 11.01.2019
- * Time: 17:47
- */
+
+?>
+</body>
+</html>
