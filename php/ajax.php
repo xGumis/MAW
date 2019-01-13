@@ -193,5 +193,14 @@ switch($function) {
             $log['result'] = true;
         else $log['result'] = false;
         break;//endregion
+    //region 'debug class'
+    case('debug'):
+        $board = $_SESSION['board'];
+        for($i=0;$i<24;$i++){
+            $field = $board->fields[$i];
+            $log[$i]['Line 1'] = count($field->line1);
+            $log[$i]['Line 2'] = count($field->line2);
+        }
+        break;//endregion
 }
 echo json_encode($log);

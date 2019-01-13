@@ -1,5 +1,5 @@
 function genDivs() {
-    $('body').html('<div id=\"board\"><\/div><div id="loader"></div>');
+    $('body').html('<div id="board"></div><div id="loader"></div>');
     let divs = '';
     let count = 0;
     for (let i = 0; i < 7; i++)

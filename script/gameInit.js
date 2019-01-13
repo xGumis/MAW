@@ -21,7 +21,6 @@ function updatePlayer(){
     });
 }
 function handleGame(json){
-    console.log(json);
     json = JSON.parse(json);
     window.state = json['state'];
     if(window.state !== 'Full'){
@@ -30,7 +29,6 @@ function handleGame(json){
         else if(window.start!==true){startGame();}
         else{
             if(json.hasOwnProperty('data')){
-                console.log('Before {turn:'+window.turn+',phase:'+window.phase+',left:'+window.left+'}');
                 let data = json['data'];
                 let count = Object.keys(data).length;
                 if(count>0){
@@ -38,12 +36,12 @@ function handleGame(json){
                     if(data.hasOwnProperty('phase')) {window.phase = data['phase'];delete data.phase;}
                     if(data.hasOwnProperty('left')) {window.left = data['left'];delete data.left;}
                     jQuery.each(data,function(field,value){
-                        if(value===-1) $('#'+field).removeClass('player1','player2');//todo
-                        else if(value===1) $('#'+field).addClass('player1');
-                        else if(value===2) $('#'+field).addClass('player2');
+                        console.log(field+':'+value);
+                        if(value==(-1)) $('#'+field).children().remove();
+                        else if(value==1) $('#'+field).append('<div class=\"bullet player1\"></div>');
+                        else if(value==2) $('#'+field).append('<div class=\"bullet player2\"></div>');
                     });
                 }
-                console.log('After {turn:'+window.turn+',phase:'+window.phase+',left:'+window.left+'}');
             }
         }
     }else {

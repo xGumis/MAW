@@ -16,11 +16,11 @@ class Field
         return $this->value;
     }
     function add_line1($field){
-        $this->line1[] = $field;
-        $field->line1[] = $this;
+        array_push($this->line1, $field);
+        array_push($field->line1, $this);
     }
     function add_line2($field){
-        $this->line2[] = $field;
-        $field->line2[] = $this;
+        array_push($this->line2, $field);
+        array_push($field->line2, $this);
     }
 }

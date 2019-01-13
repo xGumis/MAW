@@ -9,6 +9,7 @@ class Board
         for($i=0;$i<8;$i++){
             $this->fields[($i*3)]->add_line1($this->fields[($i*3)+1]);
             $this->fields[($i*3)]->add_line1($this->fields[($i*3)+2]);
+            $this->fields[($i*3)+1]->add_line1($this->fields[($i*3)+2]);
         }
         $this->fields[0]->add_line2($this->fields[9]);
         $this->fields[0]->add_line2($this->fields[21]);
@@ -26,6 +27,14 @@ class Board
         $this->fields[2]->add_line2($this->fields[23]);
         $this->fields[6]->add_line2($this->fields[11]);
         $this->fields[6]->add_line2($this->fields[15]);
+        $this->fields[9]->add_line2($this->fields[21]);
+        $this->fields[10]->add_line2($this->fields[18]);
+        $this->fields[11]->add_line2($this->fields[15]);
+        $this->fields[4]->add_line2($this->fields[7]);
+        $this->fields[19]->add_line2($this->fields[22]);
+        $this->fields[12]->add_line2($this->fields[17]);
+        $this->fields[13]->add_line2($this->fields[20]);
+        $this->fields[14]->add_line2($this->fields[23]);
     }
     function check($id)
     {

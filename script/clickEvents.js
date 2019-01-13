@@ -8,6 +8,16 @@ function clickEvents(){
             else if(window.phase==='Game' && window.selected !== -1) move(this);
         }
     });
+    $('#debug').click(function(){
+        $.ajax({
+            url: 'php/ajax.php',
+            method: 'POST',
+            data: {'function': 'debug'},
+            success: function(res){
+                console.log(res);
+            }
+        });
+    });
 }
 
 function place(field){
@@ -25,7 +35,7 @@ function place(field){
                 }else window.turn = res['turn'];
                 window.phase = res['phase'];
                 window.hand--;
-                $(field).html('<div class=\"bullet player'+ window.id +'\"><\/div>');
+                $(field).append('<div class=\"bullet player'+window.id+'\"></div>');
                 $('#loader').children().last().remove();
             }
         }
@@ -43,8 +53,8 @@ function move(field){
             res = JSON.parse(res);
             window.turn = res['turn'];
             if(res['result']===true) {
-                $(field).addClass('player'+window.id);
-                $('#'+from).removeClass('player'+window.id);
+                $(field).append('<div class=\"bullet player'+window.id+'\"></div>');
+                $('#'+from).children().remove();
                 window.turn = res['turn'];
                 window.match = res['match'];
             }
@@ -57,12 +67,13 @@ function remove(field){
         $.ajax({
             url: 'php/ajax.php',
             method: 'POST',
-            data: {'function': 'remove','field':number,'id':window.id},
+            data: {'function': 'remove','field':number,'id':window.id,'match':window.match},
             success: function(res){
+                console.log(res);
                 res = JSON.parse(res);
                 window.turn = res['turn'];
                 if(res['result']===true){
-                    $(field).removeClass('player'+window.id%2+1);
+                    $(field).children().remove();
                     window.match--;
                 }
             }
