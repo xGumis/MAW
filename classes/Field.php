@@ -4,8 +4,10 @@ class Field
     public $line1 = array(); //1st indices to check
     public $line2 = array(); //2nd indices to check
     var $value; //0:empty, 1:player1, 2:player2
-    function __construct(){
+    public $id;
+    function __construct($id){
         $this->value = 0;
+        $this->id = $id;
     }
     function change($value){
         if($value==0&&$this->value!=0){$this->value = $value;return true;}

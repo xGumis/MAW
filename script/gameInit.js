@@ -36,7 +36,6 @@ function handleGame(json){
                     if(data.hasOwnProperty('phase')) {window.phase = data['phase'];delete data.phase;}
                     if(data.hasOwnProperty('left')) {window.left = data['left'];delete data.left;}
                     jQuery.each(data,function(field,value){
-                        console.log(field+':'+value);
                         if(value==(-1)) $('#'+field).children().remove();
                         else if(value==1) $('#'+field).append('<div class=\"bullet player1\"></div>');
                         else if(value==2) $('#'+field).append('<div class=\"bullet player2\"></div>');

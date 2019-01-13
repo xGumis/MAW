@@ -5,7 +5,7 @@ class Board
     var $fields = array();
     function __construct(){
         for($i=0;$i<24;$i++)
-            $this->fields[] = new Field();
+            $this->fields[] = new Field($i);
         for($i=0;$i<8;$i++){
             $this->fields[($i*3)]->add_line1($this->fields[($i*3)+1]);
             $this->fields[($i*3)]->add_line1($this->fields[($i*3)+2]);
@@ -47,9 +47,9 @@ class Board
     }
     function move($from,$to,$spec){
         $from = $this->fields[$from];
-        $to = $this->fields[$to];
-        if($spec||in_array($to,$from->line1)||in_array($to,$from->line2)){
+        if($spec||($from->line1[0]->id==$to||$from->line1[1]->id==$to)||($from->line2[0]->id==$to||$from->line2[1]->id==$to)){
             $value = $from->get();
+            $to = $this->fields[$to];
             if($to->change($value))return $from->change(0);
         }
         return false;

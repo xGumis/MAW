@@ -1,6 +1,7 @@
 //field click
 function clickEvents(){
     $('.clickable').click(function () {
+        console.log(window.phase+', id:'+window.selected);
         if(window.turn===window.id){
             if(window.match > 0) remove(this);
             else if(window.phase==='Placing') place(this);
@@ -27,7 +28,6 @@ function place(field){
         method: 'POST',
         data: {'function': 'place','id': window.id,'field':number},
         success: function(res) {
-            console.log(res);
             res = JSON.parse(res);
             if(res['result']){
                 if(window.turn === res['turn']){
@@ -45,22 +45,26 @@ function place(field){
 function move(field){
     let to = parseInt($(field).attr('id'));
     let from = window.selected;
-    $.ajax({
-        url: 'php/ajax.php',
-        method: 'POST',
-        data: {'function': 'move','from': from,'to':to,'id': window.id},
-        success: function(res){
-            res = JSON.parse(res);
-            window.turn = res['turn'];
-            if(res['result']===true) {
-                $(field).append('<div class=\"bullet player'+window.id+'\"></div>');
-                $('#'+from).children().remove();
+    if(!($(field).children().hasClass('player2')||$(field).children().hasClass('player1'))){
+        $.ajax({
+            url: 'php/ajax.php',
+            method: 'POST',
+            data: {'function': 'move','from': from,'to':to,'id': window.id},
+            success: function(res){
+                console.log(res);
+                res = JSON.parse(res);
                 window.turn = res['turn'];
-                window.match = res['match'];
+                if(res['result']===true) {
+                    $(field).append('<div class=\"bullet player'+window.id+'\"></div>');
+                    $('#'+from).children().remove();
+                    window.turn = res['turn'];
+                    window.match = res['match'];
+                }
             }
-        }
-    });
-
+        });
+    }
+    $('.highlight').removeClass('highlight');
+    window.selected = -1;
 }
 function remove(field){
         let number = parseInt($(field).attr('id'));
@@ -71,10 +75,10 @@ function remove(field){
             success: function(res){
                 console.log(res);
                 res = JSON.parse(res);
-                window.turn = res['turn'];
                 if(res['result']===true){
                     $(field).children().remove();
                     window.match--;
+                    window.turn = res['turn'];
                 }
             }
         });
@@ -88,9 +92,11 @@ function select(field){
         success: function(res){
             res = JSON.parse(res);
             if(res['result']===true){
+                window.selected = number;
                 $('.highlight').removeClass('highlight');
-                $(this).addClass('highlight');
+                $(field).addClass('highlight');
             }
+            else window.selected = -1;
         }
     });
 

@@ -9,14 +9,12 @@ function changeTurn(){
     $_SESSION['data']['turn'] = $_SESSION['turn'];
 }
 function changePhase(){
-    if($_SESSION['phase']==1){
-        $_SESSION['phase']=2;
-        $log['phase'] = 'Game';
+    if($_SESSION['phase']=='Placing'){
+        $_SESSION['phase']='Game';
         $_SESSION['data']['phase'] = 'Game';
     }
-    elseif ($_SESSION['phase']==2){
-        $_SESSION['phase']=3;
-        $log['phase'] = 'End';
+    elseif ($_SESSION['phase']=='Game'){
+        $_SESSION['phase']='End';
         $_SESSION['data']['phase'] = 'End';
     }
 }
@@ -112,7 +110,7 @@ switch($function) {
             $_SESSION['hand'] = [9,9];
             $_SESSION['left'] = [9,9];
             $_SESSION['turn'] = 1;
-            $_SESSION['phase'] = 1;
+            $_SESSION['phase'] = 'Placing';
             $_SESSION['selection'] = -1;
             $_SESSION['data'] = array();
         }
@@ -125,9 +123,8 @@ switch($function) {
         $hand = $_SESSION['hand'][$id-1];
         $board = $_SESSION['board'];
         $log['turn'] =$turn;
-        $log['before'] = $board->fields[$field]->get();
-        if($id==$turn && $hand>0 && $board->place($id,$field)){
-                $hand--;
+        if($_SESSION['phase']=='Placing'&&$id==$turn && $hand>0 && $board->place($id,$field)){
+                $_SESSION['hand'][$id-1]--;
                 $_SESSION['data'][$field] = $id;
                 $_SESSION['sender'] = $id;
                 $match = $board->check($field);
@@ -136,17 +133,16 @@ switch($function) {
                 }else changeTurn();
                 $log['turn'] = $_SESSION['turn'];
                 if($_SESSION['hand']==[0,0]) changePhase();
-                else $log['phase'] = 'Placing';
+                $log['phase']=$_SESSION['phase'];
                 $log['result'] = true;
         }else $log['result'] = false;
-        $log['after'] = $board->fields[$field]->get();
         break;//endregion
     //region 'remove'
     case('remove'):
         $match = $_POST['match'];
         $field = $_POST['field'];
         $board = $_SESSION['board'];
-        $opp = $_SESSION['turn']%2+1;
+        $opp = $_SESSION['turn']%2;
         $player = $_POST['id'];
         $turn = $_SESSION['turn'];
         if($turn==$player && $match>0 && $board->fields[$field]->get()!=$player && $board->remove($field)){
@@ -159,8 +155,8 @@ switch($function) {
                     changePhase();
                 }
                 else if($match==0)changeTurn();
+                $log['turn'] = $_SESSION['turn'];
         }else $log['result'] = false;
-        $log['turn'] = $_SESSION['turn'];
         break;//endregion
     //region 'move'
     case('move'):
@@ -170,12 +166,12 @@ switch($function) {
         $spec = $_SESSION['left'][$player-1]<4;
         $turn = $_SESSION['turn'];
         $board = $_SESSION['board'];
-        if($turn==$player && $board->move($from,$to,$spec)){
+        if($_SESSION['phase']=='Game'&&$turn==$player && $board->move($from,$to,$spec)){
             $log['result'] = true;
             $_SESSION['data'][$from] = -1;
             $_SESSION['data'][$to] = $player;
             $_SESSION['sender'] = $player;
-            $match = $board->check($field);
+            $match = $board->check($to);
             if($match>0){
                 $log['match']=$match;
             }else changeTurn();
@@ -189,7 +185,7 @@ switch($function) {
         $board = $_SESSION['board'];
         $player = $_POST['id'];
         $turn = $_SESSION['turn'];
-        if($turn==$player&&$board->fields[$field]->get()==$player)
+        if($_SESSION['phase']=='Game'&&$turn==$player&&$board->fields[$field]->get()==$player)
             $log['result'] = true;
         else $log['result'] = false;
         break;//endregion
