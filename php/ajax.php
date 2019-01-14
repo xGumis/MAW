@@ -48,6 +48,7 @@ switch($function) {
                     $log['state'] = 'Waiting';
                     $_SESSION['init'] = false;
                 }
+                $log['init'] = $_SESSION['init'];
             }//endregion
             //region Player 2
             elseif ($state==2){
@@ -63,6 +64,7 @@ switch($function) {
                     $log['state'] = 'Waiting';
                     $_SESSION['init'] = false;
                 }
+                $log['init'] = $_SESSION['init'];
             }//endregion
             //region New Players
             else{
@@ -70,11 +72,13 @@ switch($function) {
                     $log['id']=1;
                     $log['state'] = 'Waiting';
                     $_SESSION['init'] = false;
+                    $log['init'] = false;
                     file_put_contents('1',null);
                 }elseif (!file_exists('2')){
                     $log['id']=2;
                     $log['state'] = 'Waiting';
                     $_SESSION['init'] = false;
+                    $log['init'] = false;
                     file_put_contents('2',null);
                 }else $log['state'] = 'Full';
             }//endregion
@@ -104,8 +108,14 @@ switch($function) {
     case('init'):
         if(!$_SESSION['init']){
             $_SESSION['init']=true;
-            require('../classes/Board.php');
+            require_once('../classes/Board.php');
             $_SESSION['board'] = new Board();
+            $board = $_SESSION['board'];
+            $count = 0;
+            foreach($board->fields as $field){
+                if($field->get()==0) $count++;
+            }
+            $log['count'] = $count;
             $_SESSION['sender'] = 0;
             $_SESSION['hand'] = [9,9];
             $_SESSION['left'] = [9,9];
@@ -194,8 +204,7 @@ switch($function) {
         $board = $_SESSION['board'];
         for($i=0;$i<24;$i++){
             $field = $board->fields[$i];
-            $log[$i]['Line 1'] = count($field->line1);
-            $log[$i]['Line 2'] = count($field->line2);
+            $log[$i] = $field->get();
         }
         break;//endregion
 }

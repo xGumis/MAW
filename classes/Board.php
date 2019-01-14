@@ -1,5 +1,5 @@
 <?php
-require('Field.php');
+require_once('Field.php');
 class Board
 {
     var $fields = array();

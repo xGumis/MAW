@@ -1,15 +1,6 @@
 //field click
 function clickEvents(){
     $('.clickable').click(function () {
-        console.log(window.phase+', id:'+window.selected);
-        if(window.turn===window.id){
-            if(window.match > 0) remove(this);
-            else if(window.phase==='Placing') place(this);
-            else if(window.phase==='Game' && window.selected === -1) select(this);
-            else if(window.phase==='Game' && window.selected !== -1) move(this);
-        }
-    });
-    $('#debug').click(function(){
         $.ajax({
             url: 'php/ajax.php',
             method: 'POST',
@@ -18,6 +9,12 @@ function clickEvents(){
                 console.log(res);
             }
         });
+        if(window.turn===window.id){
+            if(window.match > 0) remove(this);
+            else if(window.phase==='Placing') place(this);
+            else if(window.phase==='Game' && window.selected === -1) select(this);
+            else if(window.phase==='Game' && window.selected !== -1) move(this);
+        }
     });
 }
 

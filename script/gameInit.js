@@ -28,6 +28,7 @@ function handleGame(json){
         if(window.state === 'Waiting') {$('body').html('<p>Oczekiwanie na gracza...<\/p>');window.start=false;}
         else if(window.start!==true){startGame();}
         else{
+            if(json.hasOwnProperty('init') && json['init']===false) {window.state = 'Waiting';window.start = false;}
             if(json.hasOwnProperty('data')){
                 let data = json['data'];
                 let count = Object.keys(data).length;
@@ -59,7 +60,10 @@ function startGame(){
     $.ajax({
         method: 'POST',
         url: 'php/ajax.php',
-        data: {'function': 'init'}
+        data: {'function': 'init'},
+        success: function(res){
+            console.log(res);
+        }
     });
     genDivs();
     if(window.id===1)$('.bullet').addClass('player1');
