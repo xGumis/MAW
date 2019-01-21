@@ -14,7 +14,7 @@ function genDivs() {
     $('#board').html(divs);
     divs = '';
     for (let i = 0; i < hand; i++) {
-        divs += '<div class=\"bullet\" style=\"left:' + (10 + i * 10) + 'px\"><\/div>';
+        divs += '<div class=\"bullet\" style="left:'+(i+1)+'vmin;"><\/div>';
     }
     $('#loader').html(divs);
 }
