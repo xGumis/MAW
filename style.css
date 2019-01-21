@@ -3,7 +3,8 @@ body{margin:0;padding:3vmin;}
 #board {
     width: 91vmin;
     height: 91vmin;
-    background-color: darkgray;
+    background-image: url("Board.png");
+	background-size: contain;
     padding: 0;
     margin:0;
     float: left;
@@ -13,7 +14,6 @@ body{margin:0;padding:3vmin;}
     width: 22vmin;
     height: 14vmin;
     padding: 1vmin;
-    border: 2px solid black;
     position: absolute;
 }
 
@@ -21,21 +21,19 @@ div.field {
     width: 13vmin;
     height: 13vmin;
     float: left;
-    background-color: blue;
     margin: 0;
     padding: 0;
 }
 
-div.clickable {
-    background-color: red;
-}
 
 div.clickable:hover {
-    background-color: #F99;
+    background-image: url("EmptyO.png");
+	background-size: contain;
 }
 
 div.highlight {
-    background-color: #F99;
+    background-image: url("EmptyO.png");
+	background-size: contain;
 }
 
 div.bullet {
@@ -45,13 +43,13 @@ div.bullet {
 }
 
 div.player1 {
-    background-color: green;
-    border: 1px solid black;
+	background-image: url("White.png");
+	background-size: contain;
 }
 
 div.player2 {
-    background-color: black;
-    border: 1px solid #DDD;
+	background-image: url("Black.png");
+	background-size: contain;
 }
 
 p {
@@ -66,4 +64,3 @@ p {
 @media(orientation: portrait){
     #loader{top: 100vmin;}
 }
-
