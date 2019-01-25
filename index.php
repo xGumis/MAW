@@ -8,7 +8,7 @@
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-    <script src="script/gameInit.js"></script>
+    <script src="script/gameInit.js?12"></script>
     <script src="script/genDivs.js"></script>
     <script src="script/clickEvents.js"></script>
     <script>
@@ -19,5 +19,6 @@
     </script>
 </head>
 <body>
+<div style="position: fixed;background-color: yellow;" id="err">Info</div>
 </body>
 </html>

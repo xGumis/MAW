@@ -16,6 +16,7 @@ function updatePlayer(){
         url: 'php/ajax.php',
         data: {'function': 'update','id': window.id,'turn':window.turn,'start':window.start},
         success: function(res){
+            console.log(res);
             handleGame(res);
         }
     });
